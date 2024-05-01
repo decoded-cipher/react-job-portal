@@ -2,10 +2,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import JobCard from './reusable/JobCard'
+import Spinner from './reusable/Spinner'
 
 const JobListing = (props) => {
 
     const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let apiURL = props.isHome ? '/api/jobs?_limit=3' : '/api/jobs'
@@ -15,6 +17,8 @@ const JobListing = (props) => {
                 .then(data => setJobs(data))
         } catch (error) {
             console.error(error)
+        } finally {
+            setLoading(false)
         }
     }, [])
 
@@ -29,13 +33,19 @@ const JobListing = (props) => {
 
                     <div className="flex flex-row flex-wrap justify-center">
 
-                        {jobs.map((job, index) => (
-                            <JobCard key={index} job={job} />
-                        ))}
+                        {loading ? (
+                            <Spinner loading={loading} />
+                        ) : (
+                            <>
+                                {jobs.map((job, index) => (
+                                    <JobCard key={index} job={job} />
+                                ))}
+                            </>
+                        )}
 
                     </div>
                 </div>
-                
+
                 {props.children}
 
             </section>
