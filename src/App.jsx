@@ -6,20 +6,23 @@ import GeneralLayout from './layouts/GeneralLayout'
 import EmptyLayout from './layouts/EmptyLayout'
 
 import Home from './views/Home'
-import About from './views/About'
+import Jobs from './views/Jobs'
+import AddJob from './views/AddJob'
+import SingleJob from './views/SingleJob'
 import NotFound from './views/NotFound'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
 
-      <Route path='/' element={<GeneralLayout />}>,
+      <Route element={<GeneralLayout />}>,
         <Route index element={<Home />} />,
-        <Route path='/about' element={<About />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path='/jobs' element={<Jobs />} />
+        <Route path='/add-job' element={<AddJob />} />
+        <Route path='/job/:id' element={<SingleJob />} />
       </Route>
 
-      <Route path='*' element={<EmptyLayout />}>
+      <Route element={<EmptyLayout />}>
         <Route path='*' element={<NotFound />} />
       </Route>
 

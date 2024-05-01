@@ -1,9 +1,16 @@
 
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 
 const Navbar = () => {
+
+  let navItems = [
+    { name: 'Home', link: '/' },
+    { name: 'Jobs', link: '/jobs' },
+    { name: 'Add Job', link: '/add-job' }
+  ]
+
   return (
 
     <nav className="bg-indigo-700 border-b border-indigo-500">
@@ -24,21 +31,17 @@ const Navbar = () => {
             </Link>
             <div className="md:ml-auto">
               <div className="flex space-x-2">
-                <a
-                  href="/index.html"
-                  className="text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Home</a
-                >
-                <a
-                  href="/jobs.html"
-                  className="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Jobs</a
-                >
-                <a
-                  href="/add-job.html"
-                  className="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Add Job</a
-                >
+
+                {navItems.map((item, index) => (
+                  <NavLink
+                    key={index}
+                    to={item.link}
+                    className={({ isActive }) => (isActive ? 'bg-black text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2' : 'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2')}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+
               </div>
             </div>
           </div>
