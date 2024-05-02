@@ -9,12 +9,13 @@ import EmptyLayout from './layouts/EmptyLayout'
 import Home from './views/Home'
 import Jobs from './views/Jobs'
 import AddJob from './views/AddJob'
+import EditJob from './views/EditJob'
 import SingleJob from './views/SingleJob'
 import NotFound from './views/NotFound'
 
 const App = () => {
 
-  
+
   // Add new job to the database
   const addJob = async (data) => {
     let newJob = {
@@ -61,22 +62,54 @@ const App = () => {
   }
 
 
+  // Edit job in the database
+  const editJob = async (data, id) => {
+    let updatedJob = {
+      title: data.title,
+      type: data.type,
+      location: data.location,
+      description: data.description,
+      salary: data.salary,
+      company: {
+        name: data.company_name,
+        description: data.company_description,
+        contactEmail: data.company_contactEmail,
+        contactPhone: data.company_contactPhone
+      }
+    }
+
+    await fetch(`/api/jobs/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedJob)
+    }).then(response => {
+      if (response.status === 200) {
+        toast.success('Job updated successfully')
+      } else {
+        toast.error('An error occurred. Please try again.')
+      }
+    })
+  }
+
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-  
+
         <Route element={<GeneralLayout />}>,
           <Route index element={<Home />} />,
           <Route path='/jobs' element={<Jobs />} />
-          <Route path='/add-job' element={
-          <AddJob addJobSubmit={addJob} />} />
+          <Route path='/add-job' element={<AddJob addJobSubmit={addJob} />} />
+          <Route path='/edit-job/:id' element={<EditJob editJob={editJob} />} />
           <Route path='/job/:id' element={<SingleJob deleteJob={deleteJob} />} />
         </Route>
-  
+
         <Route element={<EmptyLayout />}>
           <Route path='*' element={<NotFound />} />
         </Route>
-  
+
       </>
     )
   )
