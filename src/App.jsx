@@ -11,26 +11,52 @@ import AddJob from './views/AddJob'
 import SingleJob from './views/SingleJob'
 import NotFound from './views/NotFound'
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-
-      <Route element={<GeneralLayout />}>,
-        <Route index element={<Home />} />,
-        <Route path='/jobs' element={<Jobs />} />
-        <Route path='/add-job' element={<AddJob />} />
-        <Route path='/job/:id' element={<SingleJob />} />
-      </Route>
-
-      <Route element={<EmptyLayout />}>
-        <Route path='*' element={<NotFound />} />
-      </Route>
-
-    </>
-  )
-)
-
 const App = () => {
+
+  const addJob = async (data) => {
+
+    let newJob = {
+      title: data.title,
+      type: data.type,
+      location: data.location,
+      description: data.description,
+      salary: data.salary,
+      company: {
+        name: data.company_name,
+        description: data.company_description,
+        contactEmail: data.company_contactEmail,
+        contactPhone: data.company_contactPhone
+      }
+    }
+
+    await fetch('/api/jobs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newJob)
+    })
+  }
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+  
+        <Route element={<GeneralLayout />}>,
+          <Route index element={<Home />} />,
+          <Route path='/jobs' element={<Jobs />} />
+          <Route path='/add-job' element={<AddJob addJobSubmit={addJob} />} />
+          <Route path='/job/:id' element={<SingleJob />} />
+        </Route>
+  
+        <Route element={<EmptyLayout />}>
+          <Route path='*' element={<NotFound />} />
+        </Route>
+  
+      </>
+    )
+  )
+
   return (
     <RouterProvider router={router} />
   )
