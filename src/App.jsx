@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import GeneralLayout from './layouts/GeneralLayout'
 import EmptyLayout from './layouts/EmptyLayout'
@@ -36,6 +37,12 @@ const App = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newJob)
+    }).then(response => {
+      if (response.status === 201) {
+        toast.success('Job added successfully')
+      } else {
+        toast.error('An error occurred. Please try again.')
+      }
     })
   }
 
@@ -44,8 +51,15 @@ const App = () => {
   const deleteJob = async (id) => {
     await fetch(`/api/jobs/${id}`, {
       method: 'DELETE'
+    }).then(response => {
+      if (response.status === 200) {
+        toast.success('Job deleted successfully')
+      } else {
+        toast.error('An error occurred. Please try again.')
+      }
     })
   }
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
