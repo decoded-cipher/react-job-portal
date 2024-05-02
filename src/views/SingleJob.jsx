@@ -68,23 +68,18 @@ const SingleJob = () => {
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-6">Company Info</h3>
 
-                <h2 className="text-2xl">NewTek Solutions</h2>
+                <h2 className="text-2xl">{job?.company?.name}</h2>
 
-                <p className="my-2">
-                  NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment.
-                </p>
+                <p className="my-2">{job?.company?.description}</p>
 
                 <hr className="my-4" />
 
                 <h3 className="text-xl">Contact Email:</h3>
-
-                <p className="my-2 bg-indigo-100 p-2 text-sm font-semibold">
-                  contact@newteksolutions.com
-                </p>
+                <p className="my-2 bg-indigo-100 p-2 text-sm font-semibold">{job?.company?.contactEmail}</p>
 
                 <h3 className="text-xl">Contact Phone:</h3>
-
-                <p className="my-2 bg-indigo-100 p-2 text-sm font-semibold">555-555-5555</p>
+                <p className="my-2 bg-indigo-100 p-2 text-sm font-semibold">{job?.company?.contactPhone}</p>
+                
               </div>
 
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
