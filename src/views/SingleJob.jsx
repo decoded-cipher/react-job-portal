@@ -1,14 +1,24 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { FaArrowLeft, FaMapMarker } from 'react-icons/fa'
 
-const SingleJob = () => {
+const SingleJob = ({ deleteJob }) => {
 
   const [job, setJob] = useState({});
-
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const deleteSingleJob = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this job?')
+    if (confirmDelete) {
+      await deleteJob(id)
+      navigate('/jobs')
+    } else {
+      return
+    }
+  }
 
   useEffect(() => {
     try {
@@ -90,6 +100,7 @@ const SingleJob = () => {
                 >Edit Job</Link>
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                  onClick={() => deleteSingleJob(job.id)}
                 >
                   Delete Job
                 </button>

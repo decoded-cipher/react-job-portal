@@ -13,8 +13,9 @@ import NotFound from './views/NotFound'
 
 const App = () => {
 
+  
+  // Add new job to the database
   const addJob = async (data) => {
-
     let newJob = {
       title: data.title,
       type: data.type,
@@ -38,6 +39,14 @@ const App = () => {
     })
   }
 
+
+  // Delete job from the database
+  const deleteJob = async (id) => {
+    await fetch(`/api/jobs/${id}`, {
+      method: 'DELETE'
+    })
+  }
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -45,8 +54,9 @@ const App = () => {
         <Route element={<GeneralLayout />}>,
           <Route index element={<Home />} />,
           <Route path='/jobs' element={<Jobs />} />
-          <Route path='/add-job' element={<AddJob addJobSubmit={addJob} />} />
-          <Route path='/job/:id' element={<SingleJob />} />
+          <Route path='/add-job' element={
+          <AddJob addJobSubmit={addJob} />} />
+          <Route path='/job/:id' element={<SingleJob deleteJob={deleteJob} />} />
         </Route>
   
         <Route element={<EmptyLayout />}>
